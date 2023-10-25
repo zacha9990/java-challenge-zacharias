@@ -1,28 +1,21 @@
 package ist.challenge.zacharias.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
-@Table(name = "user", schema = "public")
 @Entity
+@Table(name="user", schema = "public")
 public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    public User() {
-    }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     // Getter ands Setter
     public Long getId() {

@@ -12,17 +12,21 @@ public class LoginService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    public LoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    public ResponseEntity<String> loginUser(String username, String password) {
+    public ResponseEntity<LoginResponse> loginUser(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
-            return new ResponseEntity<>("Username dan / atau password kosong", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new LoginResponse("error", "Username dan / atau password kosong"), HttpStatus.BAD_REQUEST);
         }
 
         User user = userRepository.findByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
-            return new ResponseEntity<>("Username dan / atau password tidak cocok", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new LoginResponse("error", "Username dan / atau password tidak cocok"), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>("Sukses Login", HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponse("success", "Sukses Login"), HttpStatus.OK);
     }
 }

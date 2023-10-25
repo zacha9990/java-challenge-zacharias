@@ -13,11 +13,14 @@ public class RegistrationService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity<String> registerUser(User newUser) {
+    public ResponseEntity<RegistrationResponse> registerUser(User newUser) {
         if (userRepository.existsByUsername(newUser.getUsername())) {
-            return new ResponseEntity<>("Username sudah terpakai", HttpStatus.CONFLICT);
+            // Username already exists
+            return new ResponseEntity<>(new RegistrationResponse("error", "Username sudah terpakai"), HttpStatus.CONFLICT);
         }
+        
+        // Registration successful
         userRepository.save(newUser);
-        return new ResponseEntity<>("Registrasi berhasil", HttpStatus.CREATED);
+        return new ResponseEntity<>(new RegistrationResponse("success", "Registrasi berhasil"), HttpStatus.CREATED);
     }
 }
